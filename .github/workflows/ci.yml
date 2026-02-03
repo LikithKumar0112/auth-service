@@ -27,7 +27,14 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: Deploy (Dev)
+      - name: Deploy to Dev
         if: github.ref == 'refs/heads/main'
+        environment: dev
         run: echo "Deploying Auth Service to DEV"
+
+      - name: Deploy to Prod
+        if: github.ref == 'refs/heads/main'
+        environment: prod
+        run: echo "Deploying Auth Service to PROD"
+
 
