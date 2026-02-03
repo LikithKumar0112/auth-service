@@ -27,14 +27,23 @@ jobs:
       - name: Run tests
         run: npm test
 
+  deploy-dev:
+    needs: build-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment: dev
+
+    steps:
       - name: Deploy to Dev
-        if: github.ref == 'refs/heads/main'
-        environment: dev
-        run: echo "Deploying Auth Service to DEV"
+        run: echo "Deploying Auth Service to DEV 🚀"
 
+  deploy-prod:
+    needs: build-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment: prod
+
+    steps:
       - name: Deploy to Prod
-        if: github.ref == 'refs/heads/main'
-        environment: prod
-        run: echo "Deploying Auth Service to PROD"
-
+        run: echo "Deploying Auth Service to PROD 🚀"
 
