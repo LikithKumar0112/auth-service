@@ -35,7 +35,7 @@ jobs:
 
     steps:
       - name: Deploy to Dev
-        run: echo "Deploying Auth Service to DEV 🚀"
+        run: echo "Deploying Auth Service to DEV"
 
   deploy-prod:
     needs: build-test
@@ -45,5 +45,18 @@ jobs:
 
     steps:
       - name: Deploy to Prod
-        run: echo "Deploying Auth Service to PROD 🚀"
+        run: echo "Deploying Auth Service to PROD"
+
+    notify-frontend:
+    needs: deploy-prod
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Frontend Build
+        run: |
+          curl -X POST https://api.github.com/repos/LikithKumar0112/frontend-app/dispatches \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: token ${{ secrets.FRONTEND_TRIGGER_TOKEN }}" \
+          -d '{"event_type":"auth-release"}'
+
 
