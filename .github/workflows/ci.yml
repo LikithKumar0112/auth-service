@@ -32,7 +32,7 @@ jobs:
   deploy-dev:
     needs: build-test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || github.event_name == 'release'
     environment: dev
 
     steps:
@@ -42,7 +42,7 @@ jobs:
   deploy-prod:
     needs: build-test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || github.event_name == 'release'
     environment: prod
 
     steps:
@@ -50,7 +50,7 @@ jobs:
         run: echo "Deploying Auth Service to PROD 🚀"
 
   notify-frontend:
-    needs: deploy-prod
+    needs: build-test
     runs-on: ubuntu-latest
     if: github.event_name == 'release'
 
